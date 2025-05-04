@@ -1,26 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sound Booster</title>
   <style>
     body {
-      font-family: sans-serif;
+      width: 220px;
+      font-family: Arial, sans-serif;
       padding: 10px;
-      width: 200px;
     }
-    input[type="range"] {
+    button.preset {
+      margin: 5px 5px 5px 0;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+      background-color: #eee;
+      cursor: pointer;
+    }
+    button.preset:hover {
+      background-color: #ccc;
+    }
+    #volumeSlider {
       width: 100%;
+      margin-top: 10px;
     }
-    h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
+    #display {
+      margin-top: 5px;
+      text-align: center;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h2>Boost Volume</h2>
-  <input type="range" id="volumeSlider" min="1" max="5" step="0.1" value="1">
-  <div id="display">100%</div>
+  <h3>Sound Booster</h3>
+
+  <div>
+    <button class="preset" data-volume="1.5">150%</button>
+    <button class="preset" data-volume="2.0">200%</button>
+    <button class="preset" data-volume="3.0">300%</button>
+  </div>
+
+  <div>
+    <input type="range" id="volumeSlider" min="1" max="3" step="0.1" value="1">
+    <div id="display">100%</div>
+  </div>
+
   <script src="popup.js"></script>
 </body>
 </html>
