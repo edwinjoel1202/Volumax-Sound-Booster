@@ -2,6 +2,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const slider = document.getElementById("volumeSlider");
   const display = document.getElementById("display");
 
+  // Get current volume for this tab on load
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, { command: "getVolume" }, (response) => {
+      if (chrome.runtime.lastError || !response) {
+        slider.value = 1;
+        display.textContent = `100%`;
+      } else {
+        slider.value = response.volume;
+        display.textContent = `${Math.round(response.volume * 100)}%`;
+      }
+    });
+  });
+
   slider.addEventListener("input", () => {
     const volume = parseFloat(slider.value);
     display.textContent = `${Math.round(volume * 100)}%`;
@@ -19,8 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function sendVolumeToTab(volume) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs.length === 0) return;
-
       chrome.tabs.sendMessage(tabs[0].id, {
         command: "boost",
         volume: volume

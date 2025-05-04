@@ -1,41 +1,42 @@
-let gainNode = null;
 let audioCtx = null;
+let gainValue = 1; // Default volume
 
-// Function to boost the audio/video element's volume
 function boostAudio(volume) {
+  gainValue = volume;
+
   const mediaElements = document.querySelectorAll("audio, video");
 
   if (mediaElements.length === 0) {
-    console.warn("No audio or video elements found yet.");
-    setTimeout(() => boostAudio(volume), 1000); // Retry after 1 second
+    console.warn("No media elements found.");
     return;
   }
 
   mediaElements.forEach((media) => {
-    if (!media.audioBoosted) {
-      // Create an audio context for volume boosting
+    if (!media._gainNode) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const source = audioCtx.createMediaElementSource(media);
-      gainNode = audioCtx.createGain();
-      gainNode.gain.value = volume; // Apply the volume boost
+      const localGain = audioCtx.createGain();
+      localGain.gain.value = volume;
 
-      source.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
+      source.connect(localGain);
+      localGain.connect(audioCtx.destination);
 
-      media.audioBoosted = true; // Prevent reapplying boost to the same media element
-      console.log("Audio boost applied to element", volume);
-    } else if (gainNode) {
-      // If boost already applied, just update the volume
-      gainNode.gain.value = volume;
-      console.log("Updated volume boost to", volume);
+      media._gainNode = localGain;
+
+      media.addEventListener("ended", () => {
+        media._gainNode = null;
+      });
+    } else {
+      media._gainNode.gain.value = volume;
     }
   });
 }
 
-// Listen for the "boost" command from popup
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
   if (req.command === "boost") {
     boostAudio(req.volume);
     sendResponse({ status: "boosted", volume: req.volume });
+  } else if (req.command === "getVolume") {
+    sendResponse({ volume: gainValue });
   }
 });
