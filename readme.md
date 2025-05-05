@@ -36,4 +36,4 @@
 
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/yourusername/volumax.git
+   git clone https://github.com/edwinjoel1202/Volumax-Sound-Booster.git
