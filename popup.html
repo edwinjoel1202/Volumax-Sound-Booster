@@ -3,42 +3,98 @@
 <head>
   <style>
     body {
-      width: 220px;
-      font-family: Arial, sans-serif;
-      padding: 10px;
+      width: 250px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 15px;
+      background: #f9f9f9;
+      color: #333;
     }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      color: #222;
+    }
+
+    h2 {
+      margin: 5px 0 20px 0;
+      font-size: 14px;
+      text-align: center;
+      color: #666;
+      font-weight: normal;
+    }
+
+    .preset-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
     button.preset {
-      margin: 5px 5px 5px 0;
-      padding: 5px 10px;
-      border-radius: 5px;
-      border: 1px solid #aaa;
-      background-color: #eee;
+      flex: 1;
+      margin: 0 5px;
+      padding: 6px 0;
+      border-radius: 8px;
+      border: none;
+      background: #4caf50;
+      color: white;
+      font-weight: bold;
       cursor: pointer;
+      transition: background 0.2s;
     }
+
     button.preset:hover {
-      background-color: #ccc;
+      background: #45a045;
     }
+
     #volumeSlider {
       width: 100%;
-      margin-top: 10px;
-    }
-    #display {
+      -webkit-appearance: none;
+      height: 6px;
+      border-radius: 5px;
+      background: #ddd;
+      outline: none;
       margin-top: 5px;
+    }
+
+    #volumeSlider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #4caf50;
+      cursor: pointer;
+    }
+
+    #display {
       text-align: center;
+      margin-top: 8px;
       font-weight: bold;
+      font-size: 16px;
+    }
+
+    .container {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
-  <h3>Sound Booster</h3>
+  <div class="container">
+    <h1>Volumax</h1>
+    <h2>Boost volume</h2>
 
-  <div>
-    <button class="preset" data-volume="1.5">150%</button>
-    <button class="preset" data-volume="2.0">200%</button>
-    <button class="preset" data-volume="3.0">300%</button>
-  </div>
+    <div class="preset-buttons">
+      <button class="preset" data-volume="1.5">150%</button>
+      <button class="preset" data-volume="2.0">200%</button>
+      <button class="preset" data-volume="3.0">300%</button>
+    </div>
 
-  <div>
     <input type="range" id="volumeSlider" min="1" max="3" step="0.1" value="1">
     <div id="display">100%</div>
   </div>
